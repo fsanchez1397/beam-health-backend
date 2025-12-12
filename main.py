@@ -157,23 +157,6 @@ async def get_active_appointment():
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Error fetching active appointment: {str(e)}")
 
-# @app.get("/api/appointments/{appointment_id}")
-# async def get_appointment(appointment_id: int):
-#     """Get a specific appointment by ID"""
-#     appointments = load_json_data("appointments.json")
-#     appointment = next((a for a in appointments if a["id"] == appointment_id), None)
-#     if not appointment:
-#         raise HTTPException(status_code=404, detail=f"Appointment with ID {appointment_id} not found")
-#     return appointment
-
-# @app.get("/api/patients/{patient_id}/appointments")
-# async def get_patient_appointments(patient_id: int):
-#     """Get all appointments for a specific patient"""
-#     appointments = load_json_data("appointments.json")
-#     patient_appointments = [a for a in appointments if a.get("patient_id") == patient_id and a.get("status") == "booked"]
-#     # Sort by start time
-#     patient_appointments.sort(key=lambda x: x.get("start", ""))
-#     return patient_appointments
 
 @app.get("/api/patients/{patient_id}/current-appointment")
 async def get_current_appointment(patient_id: int):
