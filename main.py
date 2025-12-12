@@ -106,9 +106,16 @@ async def get_active_appointment():
     """Get the currently active appointment based on current time"""
     try:
         appointments = load_json_data("appointments.json")
-        now = datetime.now()
+        # Use UTC for consistent timezone handling across servers (Render uses UTC)
+        # Appointments are stored as naive datetimes (assumed to be in local timezone, e.g., EST)
+        # Convert server UTC time to EST (UTC-5) for comparison with appointment times
+        from datetime import timezone
+        utc_now = datetime.now(timezone.utc)
+        # Convert UTC to EST (UTC-5) - adjust offset as needed for your timezone
+        est_offset = timedelta(hours=-5)
+        now = (utc_now + est_offset).replace(tzinfo=None)  # Convert to naive EST time
         
-        print(f"[DEBUG] Checking active appointments at {now.isoformat()}")
+        print(f"[DEBUG] UTC time: {utc_now.isoformat()}, EST time: {now.isoformat()}")
         
         # Find appointments that are currently active
         # Active = current time is between start and end (start + duration)
@@ -118,6 +125,7 @@ async def get_active_appointment():
             if apt.get("status") == "booked" and apt.get("patient_id"):
                 booked_count += 1
                 try:
+                    # Parse appointment time as naive datetime (assumed to be in EST)
                     start_time = datetime.fromisoformat(apt["start"])
                     duration_minutes = apt.get("slot_duration", 30)
                     end_time = start_time + timedelta(minutes=duration_minutes)
