@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "payer": "Aetna",
+    "plan": "PPO",
+    "eligible": true,
+    "coPay": 20
+  },
+  {
+    "id": 2,
+    "payer": "Aetna",
+    "plan": "HMO",
+    "eligible": false,
+    "reason": "Out-of-network for this provider"
+  },
+  {
+    "id": 3,
+    "payer": "BlueCross",
+    "plan": "Preferred",
+    "eligible": true,
+    "coPay": 15
+  },
+  {
+    "id": 4,
+    "payer": "Medicare",
+    "plan": "Part B",
+    "eligible": true,
+    "coPay": 10
+  },
+  {
+    "id": 5,
+    "payer": "UnitedHealthcare",
+    "plan": "Basic",
+    "eligible": false,
+    "reason": "Plan does not cover office visits"
+  }
+]
+

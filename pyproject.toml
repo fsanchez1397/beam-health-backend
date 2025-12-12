@@ -1,0 +1,22 @@
+[project]
+name = "beam-health-backend"
+version = "0.1.0"
+description = "Backend API for Beam Health MVP transcription service"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.124.0",
+    "uvicorn[standard]>=0.38.0",
+    "python-multipart>=0.0.20",
+    "openai>=2.11.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "email-validator>=2.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
