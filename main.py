@@ -10,9 +10,6 @@ from openai import OpenAI
 from typing import  Optional, Dict, Any
 from pydantic import BaseModel
 from datetime import datetime, timedelta
-# import smtplib
-# from email.mime.text import MIMEText
-# from email.mime.multipart import MIMEMultipart
 
 # Load environment variables from .env file
 load_dotenv()
@@ -77,29 +74,6 @@ async def get_patient(patient_id: int):
         raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
     return patient
 
-# Insurances endpoints
-# @app.get("/api/insurances")
-# async def get_insurances():
-#     """Get all insurances"""
-#     return load_json_data("insurances.json")
-
-# @app.get("/api/insurances/{insurance_id}")
-# async def get_insurance(insurance_id: int):
-#     """Get a specific insurance by ID"""
-#     insurances = load_json_data("insurances.json")
-#     insurance = next((i for i in insurances if i["id"] == insurance_id), None)
-#     if not insurance:
-#         raise HTTPException(status_code=404, detail=f"Insurance with ID {insurance_id} not found")
-#     return insurance
-
-# Appointments endpoints
-# @app.get("/api/appointments")
-# async def get_appointments(patient_id: Optional[int] = None):
-#     """Get all appointments, optionally filtered by patient_id"""
-#     appointments = load_json_data("appointments.json")
-#     if patient_id is not None:
-#         appointments = [a for a in appointments if a.get("patient_id") == patient_id]
-#     return appointments
 
 @app.get("/api/appointments/active")
 async def get_active_appointment():
