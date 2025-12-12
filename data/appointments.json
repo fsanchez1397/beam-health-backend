@@ -58,84 +58,84 @@
   {
     "id": 9,
     "status": "available",
-    "start": "2025-12-12T10:30:00",
+    "start": "2025-12-12T13:00:00",
     "slot_duration": 30,
     "patient_id": null
   },
   {
     "id": 10,
     "status": "booked",
-    "start": "2025-12-12T11:00:00",
+    "start": "2025-12-12T13:30:00",
     "slot_duration": 30,
     "patient_id": 3
   },
   {
     "id": 11,
     "status": "available",
-    "start": "2025-12-12T11:30:00",
+    "start": "2025-12-12T14:00:00",
     "slot_duration": 30,
     "patient_id": null
   },
   {
     "id": 12,
     "status": "booked",
-    "start": "2025-12-12T13:30:00",
+    "start": "2025-12-12T14:30:00",
     "slot_duration": 30,
     "patient_id": 4
   },
   {
     "id": 13,
     "status": "available",
-    "start": "2025-12-12T12:30:00",
+    "start": "2025-12-12T15:30:00",
     "slot_duration": 30,
     "patient_id": null
   },
   {
     "id": 14,
     "status": "booked",
-    "start": "2025-12-12T13:00:00",
+    "start": "2025-12-12T16:00:00",
     "slot_duration": 30,
     "patient_id": 5
   },
   {
     "id": 15,
     "status": "available",
-    "start": "2025-12-12T13:30:00",
+    "start": "2025-12-12T16:30:00",
     "slot_duration": 30,
     "patient_id": null
   },
   {
     "id": 16,
     "status": "booked",
-    "start": "2025-12-12T14:00:00",
+    "start": "2025-12-12T17:00:00",
     "slot_duration": 30,
     "patient_id": 6
   },
   {
     "id": 17,
     "status": "available",
-    "start": "2025-12-12T14:30:00",
+    "start": "2025-12-12T17:30:00",
     "slot_duration": 30,
     "patient_id": null
   },
   {
     "id": 18,
     "status": "booked",
-    "start": "2025-12-12T15:00:00",
+    "start": "2025-12-12T18:00:00",
     "slot_duration": 30,
     "patient_id": 7
   },
   {
     "id": 19,
     "status": "available",
-    "start": "2025-12-12T15:30:00",
+    "start": "2025-12-12T18:30:00",
     "slot_duration": 30,
     "patient_id": null
   },
   {
     "id": 20,
     "status": "booked",
-    "start": "2025-12-12T11:30:00",
+    "start": "2025-12-12T19:00:00",
     "slot_duration": 30,
     "patient_id": 8
   },
