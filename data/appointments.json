@@ -79,7 +79,7 @@
   {
     "id": 12,
     "status": "booked",
-    "start": "2025-12-12T14:30:00",
+    "start": "2025-12-12T15:00:00",
     "slot_duration": 30,
     "patient_id": 4
   },

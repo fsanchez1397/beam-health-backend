@@ -1,5 +1,6 @@
 import os
 import json
+import traceback
 from io import BytesIO
 from pathlib import Path
 from dotenv import load_dotenv
@@ -31,9 +32,26 @@ async def root():
             "transcribe": "/transcribe",
             "patients": "/api/patients",
             "insurances": "/api/insurances",
-            "appointments": "/api/appointments"
+            "appointments": "/api/appointments",
+            "active_appointment": "/api/appointments/active"
         }
     }
+
+@app.get("/api/debug/appointments")
+async def debug_appointments():
+    """Debug endpoint to check appointments data"""
+    try:
+        appointments = load_json_data("appointments.json")
+        booked = [a for a in appointments if a.get("status") == "booked" and a.get("patient_id")]
+        now = datetime.now()
+        return {
+            "total_appointments": len(appointments),
+            "booked_appointments": len(booked),
+            "current_time": now.isoformat(),
+            "sample_booked": booked[:5] if booked else []
+        }
+    except Exception as e:
+        return {"error": str(e), "traceback": traceback.format_exc()}
 
 # Helper function to load JSON data
 def load_json_data(filename: str):
@@ -86,28 +104,50 @@ async def get_patient(patient_id: int):
 @app.get("/api/appointments/active")
 async def get_active_appointment():
     """Get the currently active appointment based on current time"""
-    appointments = load_json_data("appointments.json")
-    now = datetime.now()
-    
-    # Find appointments that are currently active
-    # Active = current time is between start and end (start + duration)
-    active_appointments = []
-    for apt in appointments:
-        if apt.get("status") == "booked" and apt.get("patient_id"):
-            start_time = datetime.fromisoformat(apt["start"])
-            duration_minutes = apt.get("slot_duration", 30)
-            end_time = start_time + timedelta(minutes=duration_minutes)
-            
-            # Check if current time is within the appointment window
-            if start_time <= now < end_time:
-                active_appointments.append(apt)
-    
-    if not active_appointments:
-        return None
-    
-    # Return the first active appointment (should only be one, but just in case)
-    active_appointments.sort(key=lambda x: x.get("start", ""))
-    return active_appointments[0]
+    try:
+        appointments = load_json_data("appointments.json")
+        now = datetime.now()
+        
+        print(f"[DEBUG] Checking active appointments at {now.isoformat()}")
+        
+        # Find appointments that are currently active
+        # Active = current time is between start and end (start + duration)
+        active_appointments = []
+        booked_count = 0
+        for apt in appointments:
+            if apt.get("status") == "booked" and apt.get("patient_id"):
+                booked_count += 1
+                try:
+                    start_time = datetime.fromisoformat(apt["start"])
+                    duration_minutes = apt.get("slot_duration", 30)
+                    end_time = start_time + timedelta(minutes=duration_minutes)
+                    
+                    # Check if current time is within the appointment window
+                    if start_time <= now < end_time:
+                        print(f"[DEBUG] Found active appointment: {apt['id']} for patient {apt.get('patient_id')} ({start_time.isoformat()} - {end_time.isoformat()})")
+                        active_appointments.append(apt)
+                except (ValueError, KeyError) as e:
+                    # Skip invalid appointment entries
+                    print(f"Warning: Skipping invalid appointment entry: {e}")
+                    continue
+        
+        print(f"[DEBUG] Total booked appointments: {booked_count}, Active: {len(active_appointments)}")
+        
+        if not active_appointments:
+            print("[DEBUG] No active appointments found, returning empty dict")
+            # Return empty dict instead of None to ensure consistent JSON response
+            return {}
+        
+        # Return the first active appointment (should only be one, but just in case)
+        active_appointments.sort(key=lambda x: x.get("start", ""))
+        result = active_appointments[0]
+        print(f"[DEBUG] Returning active appointment: {result['id']}")
+        return result
+    except Exception as e:
+        print(f"Error in get_active_appointment: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Error fetching active appointment: {str(e)}")
 
 # @app.get("/api/appointments/{appointment_id}")
 # async def get_appointment(appointment_id: int):
