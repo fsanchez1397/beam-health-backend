@@ -40,5 +40,5 @@ FastAPI backend for audio transcription using OpenAI.
 
 ## Environment Variables
 
-- `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `OPENAI_API_KEY`: Your OpenAI API key (required if using local backend)
 
